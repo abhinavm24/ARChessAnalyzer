@@ -1,0 +1,5 @@
+platform :ios, '12.2'
+target 'ARChessHelper' do
+  use_frameworks!
+  pod 'OpenCV'
+end

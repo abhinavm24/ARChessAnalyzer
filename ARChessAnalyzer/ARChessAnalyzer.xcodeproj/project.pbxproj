@@ -1,0 +1,519 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2B13575B23031E3D004E3E5C /* ChessPieceClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2B13575923031E3D004E3E5C /* ChessPieceClassifier.mlmodel */; };
+		2B31C2F322D6A2AC00376E19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B31C2F122D6A2AB00376E19 /* Main.storyboard */; };
+		2B31C2F622D6A2F200376E19 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B31C2F422D6A2F100376E19 /* LaunchScreen.storyboard */; };
+		2B9A3FF222F08B46004000D1 /* ChessEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B31C2E822D64CB500376E19 /* ChessEngine.framework */; };
+		2B9A3FF422F08B4E004000D1 /* ChessEngine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2B31C2E822D64CB500376E19 /* ChessEngine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2B9A3FFF22F607C8004000D1 /* ChessBoardClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2B9A3FFC22F607C8004000D1 /* ChessBoardClassifier.mlmodel */; };
+		2BBADD712309989300C39F3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BBADD702309989300C39F3C /* Assets.xcassets */; };
+		2BFED2812291A32D006BF1B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFED2802291A32D006BF1B4 /* AppDelegate.swift */; };
+		2BFED2832291A32D006BF1B4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFED2822291A32D006BF1B4 /* ViewController.swift */; };
+		2BFED2AF2291B79C006BF1B4 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFED2AE2291B79C006BF1B4 /* Utils.swift */; };
+		2BFED2B32291B8E3006BF1B4 /* ImageConverter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2BFED2B22291B8E3006BF1B4 /* ImageConverter.mm */; };
+		2BFED2B5229207A6006BF1B4 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BFED2B4229207A5006BF1B4 /* opencv2.framework */; };
+		BA66E1B85866AAB325FF0248 /* Pods_ARChessHelper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272A6360BF6F78B523597BB2 /* Pods_ARChessHelper.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2B31C2E722D64CB500376E19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B31C2E022D64CB400376E19 /* ChessEngine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19CD9A871E51A2D100EA7C0D;
+			remoteInfo = ChessEngine;
+		};
+		2B9A3FF522F08B4E004000D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B31C2E022D64CB400376E19 /* ChessEngine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 19CD9A861E51A2D100EA7C0D;
+			remoteInfo = ChessEngine;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2B9A3FF722F08B4F004000D1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2B9A3FF422F08B4E004000D1 /* ChessEngine.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		272A6360BF6F78B523597BB2 /* Pods_ARChessHelper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARChessHelper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B13575A23031E3D004E3E5C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Base; path = Base.lproj/ChessPieceClassifier.mlmodel; sourceTree = "<group>"; };
+		2B31C2E022D64CB400376E19 /* ChessEngine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ChessEngine.xcodeproj; sourceTree = "<group>"; };
+		2B31C2F222D6A2AB00376E19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2B31C2F522D6A2F100376E19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2B9A3FFD22F607C8004000D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Base; path = Base.lproj/ChessBoardClassifier.mlmodel; sourceTree = "<group>"; };
+		2BBADD702309989300C39F3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2BFED27D2291A32D006BF1B4 /* ARChessAnalyzer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARChessAnalyzer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BFED2802291A32D006BF1B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2BFED2822291A32D006BF1B4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2BFED28C2291A333006BF1B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2BFED2AE2291B79C006BF1B4 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		2BFED2B12291B8E3006BF1B4 /* OpenCV-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenCV-Bridging-Header.h"; sourceTree = "<group>"; };
+		2BFED2B22291B8E3006BF1B4 /* ImageConverter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ImageConverter.mm; sourceTree = "<group>"; };
+		2BFED2B4229207A5006BF1B4 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ios/opencv2.framework; sourceTree = "<group>"; };
+		35A6AB7C1B45AFF20EF8FB28 /* Pods-ARChessHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARChessHelper.release.xcconfig"; path = "Target Support Files/Pods-ARChessHelper/Pods-ARChessHelper.release.xcconfig"; sourceTree = "<group>"; };
+		FAC7C7FE92E715242883D336 /* Pods-ARChessHelper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARChessHelper.debug.xcconfig"; path = "Target Support Files/Pods-ARChessHelper/Pods-ARChessHelper.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2BFED27A2291A32D006BF1B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B9A3FF222F08B46004000D1 /* ChessEngine.framework in Frameworks */,
+				2BFED2B5229207A6006BF1B4 /* opencv2.framework in Frameworks */,
+				BA66E1B85866AAB325FF0248 /* Pods_ARChessHelper.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2B31C2E122D64CB400376E19 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2B31C2E822D64CB500376E19 /* ChessEngine.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2BFED2742291A32C006BF1B4 = {
+			isa = PBXGroup;
+			children = (
+				2B31C2E022D64CB400376E19 /* ChessEngine.xcodeproj */,
+				2BFED27F2291A32D006BF1B4 /* ARChessAnalyzer */,
+				2BFED27E2291A32D006BF1B4 /* Products */,
+				2C0CC3438D440262FE95154E /* Pods */,
+				A5014F0F1878437F376DDA06 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		2BFED27E2291A32D006BF1B4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2BFED27D2291A32D006BF1B4 /* ARChessAnalyzer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2BFED27F2291A32D006BF1B4 /* ARChessAnalyzer */ = {
+			isa = PBXGroup;
+			children = (
+				2BBADD702309989300C39F3C /* Assets.xcassets */,
+				2B13575923031E3D004E3E5C /* ChessPieceClassifier.mlmodel */,
+				2B9A3FFC22F607C8004000D1 /* ChessBoardClassifier.mlmodel */,
+				2B31C2F422D6A2F100376E19 /* LaunchScreen.storyboard */,
+				2B31C2F122D6A2AB00376E19 /* Main.storyboard */,
+				2BFED2802291A32D006BF1B4 /* AppDelegate.swift */,
+				2BFED2822291A32D006BF1B4 /* ViewController.swift */,
+				2BFED28C2291A333006BF1B4 /* Info.plist */,
+				2BFED2AE2291B79C006BF1B4 /* Utils.swift */,
+				2BFED2B22291B8E3006BF1B4 /* ImageConverter.mm */,
+				2BFED2B12291B8E3006BF1B4 /* OpenCV-Bridging-Header.h */,
+			);
+			path = ARChessAnalyzer;
+			sourceTree = "<group>";
+		};
+		2C0CC3438D440262FE95154E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FAC7C7FE92E715242883D336 /* Pods-ARChessHelper.debug.xcconfig */,
+				35A6AB7C1B45AFF20EF8FB28 /* Pods-ARChessHelper.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		A5014F0F1878437F376DDA06 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2BFED2B4229207A5006BF1B4 /* opencv2.framework */,
+				272A6360BF6F78B523597BB2 /* Pods_ARChessHelper.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2BFED27C2291A32D006BF1B4 /* ARChessAnalyzer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2BFED2A52291A333006BF1B4 /* Build configuration list for PBXNativeTarget "ARChessAnalyzer" */;
+			buildPhases = (
+				FBF45164682711E788362F7A /* [CP] Check Pods Manifest.lock */,
+				2BFED2792291A32D006BF1B4 /* Sources */,
+				2BFED27A2291A32D006BF1B4 /* Frameworks */,
+				2BFED27B2291A32D006BF1B4 /* Resources */,
+				2B9A3FF722F08B4F004000D1 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2B9A3FF622F08B4E004000D1 /* PBXTargetDependency */,
+			);
+			name = ARChessAnalyzer;
+			productName = OpenCVtest;
+			productReference = 2BFED27D2291A32D006BF1B4 /* ARChessAnalyzer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2BFED2752291A32C006BF1B4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1020;
+				LastUpgradeCheck = 1030;
+				ORGANIZATIONNAME = "Anav Mehta";
+				TargetAttributes = {
+					2BFED27C2291A32D006BF1B4 = {
+						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
+					};
+				};
+			};
+			buildConfigurationList = 2BFED2782291A32C006BF1B4 /* Build configuration list for PBXProject "ARChessAnalyzer" */;
+			compatibilityVersion = "Xcode 10.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2BFED2742291A32C006BF1B4;
+			productRefGroup = 2BFED27E2291A32D006BF1B4 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 2B31C2E122D64CB400376E19 /* Products */;
+					ProjectRef = 2B31C2E022D64CB400376E19 /* ChessEngine.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				2BFED27C2291A32D006BF1B4 /* ARChessAnalyzer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		2B31C2E822D64CB500376E19 /* ChessEngine.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ChessEngine.framework;
+			remoteRef = 2B31C2E722D64CB500376E19 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2BFED27B2291A32D006BF1B4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B31C2F322D6A2AC00376E19 /* Main.storyboard in Resources */,
+				2BBADD712309989300C39F3C /* Assets.xcassets in Resources */,
+				2B31C2F622D6A2F200376E19 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FBF45164682711E788362F7A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ARChessHelper-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2BFED2792291A32D006BF1B4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BFED2832291A32D006BF1B4 /* ViewController.swift in Sources */,
+				2B13575B23031E3D004E3E5C /* ChessPieceClassifier.mlmodel in Sources */,
+				2BFED2AF2291B79C006BF1B4 /* Utils.swift in Sources */,
+				2B9A3FFF22F607C8004000D1 /* ChessBoardClassifier.mlmodel in Sources */,
+				2BFED2B32291B8E3006BF1B4 /* ImageConverter.mm in Sources */,
+				2BFED2812291A32D006BF1B4 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2B9A3FF622F08B4E004000D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ChessEngine;
+			targetProxy = 2B9A3FF522F08B4E004000D1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2B13575923031E3D004E3E5C /* ChessPieceClassifier.mlmodel */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B13575A23031E3D004E3E5C /* Base */,
+			);
+			name = ChessPieceClassifier.mlmodel;
+			sourceTree = "<group>";
+		};
+		2B31C2F122D6A2AB00376E19 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B31C2F222D6A2AB00376E19 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2B31C2F422D6A2F100376E19 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B31C2F522D6A2F100376E19 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2B9A3FFC22F607C8004000D1 /* ChessBoardClassifier.mlmodel */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B9A3FFD22F607C8004000D1 /* Base */,
+			);
+			name = ChessBoardClassifier.mlmodel;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2BFED2A32291A333006BF1B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		2BFED2A42291A333006BF1B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2BFED2A62291A333006BF1B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FAC7C7FE92E715242883D336 /* Pods-ARChessHelper.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5MKS78G2L5;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ios",
+				);
+				INFOPLIST_FILE = ARChessAnalyzer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.blogspot.ARChessAnalyzer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ARChessAnalyzer/OpenCV-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		2BFED2A72291A333006BF1B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 35A6AB7C1B45AFF20EF8FB28 /* Pods-ARChessHelper.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5MKS78G2L5;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ios",
+				);
+				INFOPLIST_FILE = ARChessAnalyzer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.blogspot.ARChessAnalyzer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ARChessAnalyzer/OpenCV-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2BFED2782291A32C006BF1B4 /* Build configuration list for PBXProject "ARChessAnalyzer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BFED2A32291A333006BF1B4 /* Debug */,
+				2BFED2A42291A333006BF1B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2BFED2A52291A333006BF1B4 /* Build configuration list for PBXNativeTarget "ARChessAnalyzer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BFED2A62291A333006BF1B4 /* Debug */,
+				2BFED2A72291A333006BF1B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2BFED2752291A32C006BF1B4 /* Project object */;
+}

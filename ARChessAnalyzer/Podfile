@@ -1,5 +1,6 @@
-platform :ios, '12.2'
-target 'ARChessHelper' do
+platform :ios, '13.0'
+target 'ARChessAnalyzer' do
+  project 'ARChessAnalyzer/ARChessAnalyzer'
   use_frameworks!
   pod 'OpenCV'
 end

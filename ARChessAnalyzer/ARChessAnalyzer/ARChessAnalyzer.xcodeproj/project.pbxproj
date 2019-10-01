@@ -1,0 +1,481 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		097A4FB0397CC64928CB2D7F /* Pods_ARChessAnalyzer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E17A119CA5C7A9F3C6CFB47 /* Pods_ARChessAnalyzer.framework */; };
+		2B5D653C233C6D8C002341AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D653B233C6D8C002341AE /* AppDelegate.swift */; };
+		2B5D6542233C6D8D002341AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B5D6541233C6D8D002341AE /* Assets.xcassets */; };
+		2B5D6548233C6D8D002341AE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B5D6546233C6D8D002341AE /* LaunchScreen.storyboard */; };
+		2B5D6558233C6EC1002341AE /* ImageConverter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D6557233C6EC1002341AE /* ImageConverter.mm */; };
+		2B5D655C233C6EEA002341AE /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D655A233C6EEA002341AE /* Utils.swift */; };
+		2B5D655D233C6EEA002341AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D655B233C6EEA002341AE /* ViewController.swift */; };
+		2B5D655F233C6FD9002341AE /* ChessEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5D6554233C6E25002341AE /* ChessEngine.framework */; };
+		2B5D6560233C6FD9002341AE /* ChessEngine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5D6554233C6E25002341AE /* ChessEngine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2B5D6566233C7022002341AE /* ChessPieceClassifierFP16.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D6562233C7022002341AE /* ChessPieceClassifierFP16.mlmodel */; };
+		2B5D6567233C7022002341AE /* ChessBoardClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D6564233C7022002341AE /* ChessBoardClassifier.mlmodel */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2B5D6553233C6E25002341AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B5D654F233C6E25002341AE /* ChessEngine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19CD9A871E51A2D100EA7C0D;
+			remoteInfo = ChessEngine;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2B5D6561233C6FDA002341AE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2B5D6560233C6FD9002341AE /* ChessEngine.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2B5D6538233C6D8C002341AE /* ARChessAnalyzer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARChessAnalyzer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B5D653B233C6D8C002341AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2B5D6541233C6D8D002341AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2B5D6547233C6D8D002341AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2B5D6549233C6D8D002341AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2B5D654F233C6E25002341AE /* ChessEngine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ChessEngine.xcodeproj; path = ../ChessEngine.xcodeproj; sourceTree = "<group>"; };
+		2B5D6557233C6EC1002341AE /* ImageConverter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ImageConverter.mm; sourceTree = "<group>"; };
+		2B5D6559233C6ED0002341AE /* OpenCV-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OpenCV-Bridging-Header.h"; sourceTree = "<group>"; };
+		2B5D655A233C6EEA002341AE /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		2B5D655B233C6EEA002341AE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2B5D6563233C7022002341AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Base; path = Base.lproj/ChessPieceClassifierFP16.mlmodel; sourceTree = "<group>"; };
+		2B5D6565233C7022002341AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Base; path = Base.lproj/ChessBoardClassifier.mlmodel; sourceTree = "<group>"; };
+		425C16FBC69394D2A5752605 /* Pods-ARChessAnalyzer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARChessAnalyzer.release.xcconfig"; path = "Target Support Files/Pods-ARChessAnalyzer/Pods-ARChessAnalyzer.release.xcconfig"; sourceTree = "<group>"; };
+		6E17A119CA5C7A9F3C6CFB47 /* Pods_ARChessAnalyzer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARChessAnalyzer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F55ED5FD7C3B9833EFEEE6A5 /* Pods-ARChessAnalyzer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARChessAnalyzer.debug.xcconfig"; path = "Target Support Files/Pods-ARChessAnalyzer/Pods-ARChessAnalyzer.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2B5D6535233C6D8C002341AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B5D655F233C6FD9002341AE /* ChessEngine.framework in Frameworks */,
+				097A4FB0397CC64928CB2D7F /* Pods_ARChessAnalyzer.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2B5D652F233C6D8C002341AE = {
+			isa = PBXGroup;
+			children = (
+				2B5D654F233C6E25002341AE /* ChessEngine.xcodeproj */,
+				2B5D653A233C6D8C002341AE /* ARChessAnalyzer */,
+				2B5D6539233C6D8C002341AE /* Products */,
+				2B5D655E233C6FD9002341AE /* Frameworks */,
+				87B8FDBC816762DC0F9BE2BA /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		2B5D6539233C6D8C002341AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2B5D6538233C6D8C002341AE /* ARChessAnalyzer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2B5D653A233C6D8C002341AE /* ARChessAnalyzer */ = {
+			isa = PBXGroup;
+			children = (
+				2B5D6564233C7022002341AE /* ChessBoardClassifier.mlmodel */,
+				2B5D6562233C7022002341AE /* ChessPieceClassifierFP16.mlmodel */,
+				2B5D655A233C6EEA002341AE /* Utils.swift */,
+				2B5D655B233C6EEA002341AE /* ViewController.swift */,
+				2B5D6559233C6ED0002341AE /* OpenCV-Bridging-Header.h */,
+				2B5D6557233C6EC1002341AE /* ImageConverter.mm */,
+				2B5D653B233C6D8C002341AE /* AppDelegate.swift */,
+				2B5D6541233C6D8D002341AE /* Assets.xcassets */,
+				2B5D6546233C6D8D002341AE /* LaunchScreen.storyboard */,
+				2B5D6549233C6D8D002341AE /* Info.plist */,
+			);
+			path = ARChessAnalyzer;
+			sourceTree = "<group>";
+		};
+		2B5D6550233C6E25002341AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2B5D6554233C6E25002341AE /* ChessEngine.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2B5D655E233C6FD9002341AE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6E17A119CA5C7A9F3C6CFB47 /* Pods_ARChessAnalyzer.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		87B8FDBC816762DC0F9BE2BA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F55ED5FD7C3B9833EFEEE6A5 /* Pods-ARChessAnalyzer.debug.xcconfig */,
+				425C16FBC69394D2A5752605 /* Pods-ARChessAnalyzer.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2B5D6537233C6D8C002341AE /* ARChessAnalyzer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B5D654C233C6D8D002341AE /* Build configuration list for PBXNativeTarget "ARChessAnalyzer" */;
+			buildPhases = (
+				F4C89A4E68C22B2CB5F0DA76 /* [CP] Check Pods Manifest.lock */,
+				2B5D6534233C6D8C002341AE /* Sources */,
+				2B5D6535233C6D8C002341AE /* Frameworks */,
+				2B5D6536233C6D8C002341AE /* Resources */,
+				2B5D6561233C6FDA002341AE /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ARChessAnalyzer;
+			productName = ARChessAnalyzer;
+			productReference = 2B5D6538233C6D8C002341AE /* ARChessAnalyzer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2B5D6530233C6D8C002341AE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1100;
+				LastUpgradeCheck = 1100;
+				ORGANIZATIONNAME = "Anav Mehta";
+				TargetAttributes = {
+					2B5D6537233C6D8C002341AE = {
+						CreatedOnToolsVersion = 11.0;
+						LastSwiftMigration = 1100;
+					};
+				};
+			};
+			buildConfigurationList = 2B5D6533233C6D8C002341AE /* Build configuration list for PBXProject "ARChessAnalyzer" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2B5D652F233C6D8C002341AE;
+			productRefGroup = 2B5D6539233C6D8C002341AE /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 2B5D6550233C6E25002341AE /* Products */;
+					ProjectRef = 2B5D654F233C6E25002341AE /* ChessEngine.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				2B5D6537233C6D8C002341AE /* ARChessAnalyzer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		2B5D6554233C6E25002341AE /* ChessEngine.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ChessEngine.framework;
+			remoteRef = 2B5D6553233C6E25002341AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2B5D6536233C6D8C002341AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B5D6548233C6D8D002341AE /* LaunchScreen.storyboard in Resources */,
+				2B5D6542233C6D8D002341AE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F4C89A4E68C22B2CB5F0DA76 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ARChessAnalyzer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2B5D6534233C6D8C002341AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B5D655D233C6EEA002341AE /* ViewController.swift in Sources */,
+				2B5D655C233C6EEA002341AE /* Utils.swift in Sources */,
+				2B5D6558233C6EC1002341AE /* ImageConverter.mm in Sources */,
+				2B5D6566233C7022002341AE /* ChessPieceClassifierFP16.mlmodel in Sources */,
+				2B5D653C233C6D8C002341AE /* AppDelegate.swift in Sources */,
+				2B5D6567233C7022002341AE /* ChessBoardClassifier.mlmodel in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2B5D6546233C6D8D002341AE /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B5D6547233C6D8D002341AE /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2B5D6562233C7022002341AE /* ChessPieceClassifierFP16.mlmodel */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B5D6563233C7022002341AE /* Base */,
+			);
+			name = ChessPieceClassifierFP16.mlmodel;
+			sourceTree = "<group>";
+		};
+		2B5D6564233C7022002341AE /* ChessBoardClassifier.mlmodel */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B5D6565233C7022002341AE /* Base */,
+			);
+			name = ChessBoardClassifier.mlmodel;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2B5D654A233C6D8D002341AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "ARChessAnalyzer/OpenCV-Bridging-Header.h";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "ARChessAnalyzer/OpenCV-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
+			};
+			name = Debug;
+		};
+		2B5D654B233C6D8D002341AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "ARChessAnalyzer/OpenCV-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2B5D654D233C6D8D002341AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F55ED5FD7C3B9833EFEEE6A5 /* Pods-ARChessAnalyzer.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 7J6D9RK7UH;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = ARChessAnalyzer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.blogspot.3dwaffles.ARChessAnalyzer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		2B5D654E233C6D8D002341AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 425C16FBC69394D2A5752605 /* Pods-ARChessAnalyzer.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 7J6D9RK7UH;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = ARChessAnalyzer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.blogspot.3dwaffles.ARChessAnalyzer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2B5D6533233C6D8C002341AE /* Build configuration list for PBXProject "ARChessAnalyzer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B5D654A233C6D8D002341AE /* Debug */,
+				2B5D654B233C6D8D002341AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2B5D654C233C6D8D002341AE /* Build configuration list for PBXNativeTarget "ARChessAnalyzer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B5D654D233C6D8D002341AE /* Debug */,
+				2B5D654E233C6D8D002341AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2B5D6530233C6D8C002341AE /* Project object */;
+}

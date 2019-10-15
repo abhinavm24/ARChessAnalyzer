@@ -2,8 +2,8 @@
 //  EngineController.h
 //  ChessEngine
 //
-//  Created by hengyu on 2017/2/11.
-//  Copyright © 2017 hengyu. All rights reserved.
+//  Created by Anav Mehta on 5/19/19.
+//  Copyright © 2019 Anav Mehta. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

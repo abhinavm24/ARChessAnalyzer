@@ -20,6 +20,7 @@ std::vector<cv::Vec4i > hp, vp;
 std::vector<cv::Point2f > intersectionsP;
 int sqlen=SQUARE_SIDE_LENGTH;
 int board_len=sqlen*8;
+bool debug=true;
 cv::Rect boundingRect;
 cv::Mat overLayMat;
 cv::Scalar overlayColor( 255, 0, 255 );
@@ -236,11 +237,18 @@ void mergeRelatedLines(std::vector<cv::Vec4i> *lines) {
     }
 }
 
+void writeFile(UIImage * image, NSString * str) {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:str];
+
+    // Save image.
+    [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
+}
 
 
 cv::Rect * DetectBoard(UIImage * image) {
-    cv::Mat mat, gray, edges;
-    UIImage * edgeIm, * grayIm;
+    cv::Mat mat, gray, edges, debuggray;
+    UIImage * edgeIm,  * tmp;
     float maxx,minx,maxy,miny;
     std::vector<cv::Vec4i> linesP;
     overLayMat.release();
@@ -250,15 +258,28 @@ cv::Rect * DetectBoard(UIImage * image) {
     int clusterCount = 32;
 
     UIImageToMat(image, mat);
+    if(debug) {
+        writeFile(image, [NSString stringWithFormat:@"%s", "Orig.png"]);
+    }
     cv::cvtColor(mat, gray, cv::COLOR_BGR2GRAY);
+    if(debug) {
+        tmp = MatToUIImage(gray);
+        writeFile(tmp, [NSString stringWithFormat:@"%s", "Gray.png"]);
+    }
     cv::GaussianBlur(gray, gray, cv::Size(3,3),0);
-    
+    if(debug) {
+        tmp = MatToUIImage(gray);
+        writeFile(tmp, [NSString stringWithFormat:@"%s", "Blur.png"]);
+    }
     /*
     cv::bitwise_not(gray, gray);
     grayIm = MatToUIImage(gray);
     cv::Canny(gray, edges, 255*0.33, 255*0.66,3);*/
     edges = auto_canny(gray);
-    edgeIm = MatToUIImage(edges);
+    if(debug) {
+        edgeIm = MatToUIImage(edges);
+        writeFile(edgeIm, [NSString stringWithFormat:@"%s", "Canny.png"]);
+    }
     //cv::HoughLinesP(edges, linesP, 1, CV_PI/180,50,30,30);
     //cv::HoughLinesP(edges, linesP, 1, CV_PI/180,200,30,30);
     //cv::HoughLinesP(edges, linesP, 1, CV_PI/180,80,30,20);
@@ -292,14 +313,36 @@ cv::Rect * DetectBoard(UIImage * image) {
     if(aspect_ratio > 1.03 || aspect_ratio < 0.97) return (nil);
     showLines(hp, mat);
     showLines(vp, mat);
+    if(debug) {
+        showLines(hp, gray);
+        showLines(vp, gray);
+        tmp = MatToUIImage(gray);
+        writeFile(tmp, [NSString stringWithFormat:@"%s", "Hough.png"]);
+    }
     showPoints(intersectionsP, mat);
+    if(debug) {
+        showPoints(intersectionsP, gray);
+        tmp = MatToUIImage(gray);
+        writeFile(tmp, [NSString stringWithFormat:@"%s", "Points.png"]);
+    }
     cv::rectangle(mat, cv::Point(minx,miny), cv::Point(maxx,maxy), overlayColor, 3,cv::FILLED, 0 );
 
     for (int i = 0; i < (int)centers.size(); ++i) {
         cv::Point2f c = centers[i];
         cv::circle(mat, c, 40, overlayColor, 1, cv::FILLED );
     }
-    grayIm = MatToUIImage(mat);
+    if(debug) {
+        cv::rectangle(gray, cv::Point(minx,miny), cv::Point(maxx,maxy), overlayColor, 3,cv::FILLED, 0 );
+
+        for (int i = 0; i < (int)centers.size(); ++i) {
+            cv::Point2f c = centers[i];
+            cv::circle(gray, c, 40, overlayColor, 1, cv::FILLED );
+        }
+    //    grayIm = MatToUIImage(mat);
+        tmp = MatToUIImage(gray);
+        writeFile(tmp, [NSString stringWithFormat:@"%s", "AllP.png"]);
+    }
+
     mat.copyTo(overLayMat);
     boundingRect = cv::Rect(minx, miny, maxx-minx, maxy-miny);
     return(&boundingRect);
@@ -326,6 +369,9 @@ cv::Rect * DetectBoard(UIImage * image) {
     cv::circle(mat, cv::Point(rect->x+rect->width,rect->y+rect->height), 10, boundingColor, cv::FILLED);
     mat = mat + overLayMat;
     tmp = MatToUIImage(mat);
+    if(debug) {
+        writeFile(tmp, [NSString stringWithFormat:@"%s", "Final_b.png"]);
+    }
     return(tmp);
 
 }
@@ -357,6 +403,9 @@ cv::Rect * DetectBoard(UIImage * image) {
 
     newimg = four_point_transform(mat, corners, fp);
     tmp = MatToUIImage(newimg);
+    if(debug) {
+        writeFile(tmp, [NSString stringWithFormat:@"%s", "Final.png"]);
+    }
     cv::Mat box;
     
     for(int i=0;i<8;i++){

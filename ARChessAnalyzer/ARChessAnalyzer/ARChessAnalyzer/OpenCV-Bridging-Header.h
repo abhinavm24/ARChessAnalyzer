@@ -11,6 +11,8 @@
 @interface ImageConverter : NSObject
 +(NSMutableArray< UIImage * > *)ConvertImage:(UIImage *)image;
 +(UIImage *)DetectChessBoard:(UIImage *)image;
+//+(void)setBounds:(int)x : (int)y : (int)width : (int)height;
++(bool)isBoard:(UIImage *)image;
 @end
 
 #endif /* Header_h */

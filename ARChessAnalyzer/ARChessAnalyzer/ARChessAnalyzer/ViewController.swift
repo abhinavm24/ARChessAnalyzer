@@ -31,6 +31,8 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     private var chessBoardLayer: CALayer! = nil
     private var banner:UILabel!
     private var bannerLayer: CALayer! = nil
+    private var rectLayer: CALayer! = CALayer()
+    private var rectLayers: [[CAShapeLayer]] = Array(repeating: Array(repeating: CAShapeLayer(), count: 8), count: 8)
 
     
     private var previewLayer: AVCaptureVideoPreviewLayer! = nil
@@ -64,21 +66,14 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     private let imageq:UIImage!=UIImage(named:"black_queen-512.png")
     private let imagek:UIImage!=UIImage(named:"black_king-512.png")
     private let imageempty:UIImage!=UIImage(named:"")
+    
+    // Registration history
+    private let maximumHistoryLength = 15
+    private var transpositionHistoryPoints: [CGPoint] = [ ]
+    private var previousPixelBuffer: CVPixelBuffer?
+    private let sequenceRequestHandler = VNSequenceRequestHandler()
 
-    /*
-    private let imageURLP:URL!=URL(string:"https://cdn3.iconfinder.com/data/icons/chess-7/100/white_pawn-512.png")
-    private let imageURLN:URL!=URL(string:"https://cdn3.iconfinder.com/data/icons/chess-7/100/white_knight-512.png")
-    private let imageURLB:URL!=URL(string:"https://cdn3.iconfinder.com/data/icons/chess-7/100/white_bishop-512.png")
-    private let imageURLR:URL!=URL(string:"https://cdn3.iconfinder.com/data/icons/chess-7/100/white_rook-512.png")
-    private let imageURLQ:URL!=URL(string:"https://cdn3.iconfinder.com/data/icons/chess-7/100/white_queen-512.png")
-    private let imageURLK:URL!=URL(string:"https://cdn3.iconfinder.com/data/icons/chess-7/100/white_king-512.png")
-    private let imageURLp:URL!=URL(string:"https://cdn3.iconfinder.com/data/icons/chess-7/100/black_pawn-512.png")
-    private let imageURLn:URL!=URL(string:"https://cdn3.iconfinder.com/data/icons/chess-7/100/black_knight-512.png")
-    private let imageURLb:URL!=URL(string:"https://cdn3.iconfinder.com/data/icons/chess-7/100/black_bishop-512.png")
-    private let imageURLr:URL!=URL(string:"https://cdn3.iconfinder.com/data/icons/chess-7/100/black_rook-512.png")
-    private let imageURLq:URL!=URL(string:"https://cdn3.iconfinder.com/data/icons/chess-7/100/black_queen-512.png")
-    private let imageURLk:URL!=URL(string:"https://cdn3.iconfinder.com/data/icons/chess-7/100/black_king-512.png")
-    private let imageURLempty:URL!=URL(string:"") */
+
     private var matchedSquare: String = "empty"
 
    
@@ -144,6 +139,32 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         }
     }
     
+    func changeLabel() {
+        DispatchQueue.main.async {
+            CATransaction.begin()
+            self.bannerLayer.removeFromSuperlayer()
+            self.banner.text = "Detecting Chessboard (point and align)..."
+            self.rootLayer.addSublayer(self.rectLayer)
+            if(self.detectedChessBoard) {
+                self.banner.text = "Chessboard detected now segmenting..."
+                self.detectedChessBoard = false
+                self.rectLayer.removeFromSuperlayer()
+            } else if(self.segmentedChessBoard){
+                self.banner.text = "Chessboard segmented now analyzing..."
+                self.segmentedChessBoard = false
+                self.rectLayer.removeFromSuperlayer()
+            } else if(self.predictedChessBoard) {
+                self.banner.text = ""
+                self.predictedChessBoard = false
+                self.rectLayer.removeFromSuperlayer()
+            }
+            self.rootLayer.addSublayer(self.bannerLayer)
+
+            CATransaction.commit()
+        }
+
+    }
+    
     private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
         layer.videoOrientation = orientation
         previewLayer.frame = self.view.bounds
@@ -191,6 +212,81 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         }
         return exifOrientation
     }
+    
+    func translateMove(move: String) -> (Int,Int,Int,Int) {
+        if((move == "") || (move == "(none)")) {return(-1,-1,-1,-1)}
+        let tmpArry = Array(move)
+        let scol: Int = Int(tmpArry[0].unicodeScalars.map{$0.value}[0]-"a".unicodeScalars.map{$0.value}[0])
+        let srow: Int = Int(tmpArry[1].unicodeScalars.map{$0.value}[0]-"1".unicodeScalars.map{$0.value}[0])
+        let ecol: Int = Int(tmpArry[2].unicodeScalars.map{$0.value}[0]-"a".unicodeScalars.map{$0.value}[0])
+        let erow: Int = Int(tmpArry[3].unicodeScalars.map{$0.value}[0]-"1".unicodeScalars.map{$0.value}[0])
+        return (7-srow, scol, 7-erow, ecol)
+    }
+    
+    private func piecestoimagehash(str: String) -> UIImage {
+        if(str == "R") {return imageR}
+        if(str == "r") {return imager}
+        if(str == "p") {return imagep}
+        if(str == "P") {return imageP}
+        if(str == "K") {return imageK}
+        if(str == "k") {return imagek}
+        if(str == "q") {return imageq}
+        if(str == "Q") {return imageQ}
+        if(str == "n") {return imagen}
+        if(str == "N") {return imageN}
+        if(str == "b") {return imageb}
+        if(str == "B") {return imageB}
+        return imageK
+        
+    }
+    
+    private func isValidBoard(fen: String) -> Bool {
+        var foundBKing, foundWKing: Int
+        foundBKing = 0
+        foundWKing = 0
+        
+        for character in fen {
+            if(character == "K") {foundWKing = foundWKing+1}
+            if(character == "k") {foundBKing = foundBKing+1}
+        }
+        if((foundWKing == 1) && (foundBKing == 1)) {return true}
+        return(false)
+    }
+    
+    private func get_fen(arr: [[String]]) -> String {
+        var fen: String = ""
+        var fen_row: String = ""
+        var prev_blanks: Int = 0
+        var sq: String
+        
+        for row in 0...7{
+            fen_row = ""
+            prev_blanks = 0
+            for col in 0...7 {
+                sq = arr[row][col]
+                if (sq == "empty" || sq == "" || sq == " ") {
+                    prev_blanks = prev_blanks+1
+                    if(col == 7) {
+                        fen_row += String(prev_blanks)
+                        prev_blanks = 0
+                    }
+                } else {
+                    if(prev_blanks != 0) {fen_row += String(prev_blanks)}
+                    prev_blanks = 0
+                    let start = sq.index(sq.startIndex, offsetBy: 1)
+                    if(sq.prefix(1) == "b") {
+                        fen_row += sq[start..<sq.endIndex]
+                    } else {
+                        fen_row += sq[start..<sq.endIndex].uppercased()
+                    }
+                }
+            }
+            if(0 < row) {fen_row = "/" + fen_row}
+            fen = fen + fen_row
+        }
+        return fen
+    }
+    
     private func displayBoard() {
         var rects = [CGRect]()
         let size: CGFloat = 14.0
@@ -301,7 +397,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         if(curColor == "w"){curColor = "b"}
         else {curColor = "w"}
     }
-    func endCapture() {
+    private func endCapture() {
         finishedAnalyzing = false
         engineManager.gameFen = gameFen
         engineManager.startAnalyzing()
@@ -314,22 +410,81 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         } while (finishedAnalyzing == false)
 
     }
+
+    fileprivate func resetTranspositionHistory() {
+        transpositionHistoryPoints.removeAll()
+    }
+    
+    fileprivate func recordTransposition(_ point: CGPoint) {
+        transpositionHistoryPoints.append(point)
+        
+        if transpositionHistoryPoints.count > maximumHistoryLength {
+            transpositionHistoryPoints.removeFirst()
+        }
+    }
+    /// - Tag: CheckSceneStability
+    fileprivate func sceneStabilityAchieved() -> Bool {
+        // Determine if we have enough evidence of stability.
+        if transpositionHistoryPoints.count == maximumHistoryLength {
+            // Calculate the moving average.
+            var movingAverage: CGPoint = CGPoint.zero
+            for currentPoint in transpositionHistoryPoints {
+                movingAverage.x += currentPoint.x
+                movingAverage.y += currentPoint.y
+            }
+            let distance = abs(movingAverage.x) + abs(movingAverage.y)
+            if distance < 20 {
+                return true
+            }
+        }
+        return false
+    }
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        detectedChessBoard = false
-        segmentedChessBoard = false
-        predictedChessBoard = false
+        //detectedChessBoard = false
+        //segmentedChessBoard = false
+        //predictedChessBoard = false
         proceed = false
         var squareImage: UIImage!
         self.fen = Array(repeating: Array(repeating: "empty", count: 8), count: 8)
         self.row_fen = 0
         self.col_fen = 0
-        let exifOrientation = exifOrientationFromDeviceOrientation()
+        //let exifOrientation = exifOrientationFromDeviceOrientation()
         var image: UIImage!
 
 
         changeLabel()
+        guard let pBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            return
+        }
+        
+        guard previousPixelBuffer != nil else {
+            previousPixelBuffer = pBuffer
+            self.resetTranspositionHistory()
+            return
+        }
+        
+        let registrationRequest = VNTranslationalImageRegistrationRequest(targetedCVPixelBuffer: pBuffer)
+        do {
+            try sequenceRequestHandler.perform([ registrationRequest ], on: previousPixelBuffer!)
+        } catch let error as NSError {
+            print("Failed to process request: \(error.localizedDescription).")
+            return
+        }
+        
+        previousPixelBuffer = pBuffer
+        
+        if let results = registrationRequest.results {
+            if let alignmentObservation = results.first as? VNImageTranslationAlignmentObservation {
+                let alignmentTransform = alignmentObservation.alignmentTransform
+                self.recordTransposition(CGPoint(x: alignmentTransform.tx, y: alignmentTransform.ty))
+            }
+        }
+        if !self.sceneStabilityAchieved() {return}
         image = CameraUtil.imageFromSampleBuffer(buffer: sampleBuffer)
+        image = image.rotate(radians: Float.pi/Float(2))
+        if !ImageConverter.isBoard(image) {return}
+        /*
         guard let ciImage = CIImage(image: image) else { fatalError("Unable to create \(CIImage.self).")}
         let imageRequestHandler = VNImageRequestHandler(ciImage: ciImage,orientation: exifOrientation, options: [:])
         do {
@@ -337,9 +492,10 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         } catch {
                 print(error)
         }
-        if(!detectedChessBoard){return}
+        if(!detectedChessBoard){return}*/
+        detectedChessBoard = true
         changeLabel()
-        image = image.rotate(radians: Float.pi/Float(2))
+        //image = image.rotate(radians: Float.pi/Float(2))
         var found: UIImage!=ImageConverter.detectChessBoard(image);
         if(found == nil) {return}
         found = found.rotate(radians: -Float.pi/Float(2))
@@ -369,52 +525,9 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         }
         displayBoard()
     }
-    func isValidBoard(fen: String) -> Bool {
-        var foundBKing, foundWKing: Int
-        foundBKing = 0
-        foundWKing = 0
-        
-        for character in fen {
-            if(character == "K") {foundWKing = foundWKing+1}
-            if(character == "k") {foundBKing = foundBKing+1}
-        }
-        if((foundWKing == 1) && (foundBKing == 1)) {return true}
-        return(false)
-    }
+
     
-    private func piecestoimagehash(str: String) -> UIImage {
-        if(str == "R") {return imageR}
-        if(str == "r") {return imager}
-        if(str == "p") {return imagep}
-        if(str == "P") {return imageP}
-        if(str == "K") {return imageK}
-        if(str == "k") {return imagek}
-        if(str == "q") {return imageq}
-        if(str == "Q") {return imageQ}
-        if(str == "n") {return imagen}
-        if(str == "N") {return imageN}
-        if(str == "b") {return imageb}
-        if(str == "B") {return imageB}
-        return imageK
-        
-    }
-    /*
-    private func piecestoURLhash(str: String) -> URL {
-        if(str == "R") {return imageURLR}
-        if(str == "r") {return imageURLr}
-        if(str == "p") {return imageURLp}
-        if(str == "P") {return imageURLP}
-        if(str == "K") {return imageURLK}
-        if(str == "k") {return imageURLk}
-        if(str == "q") {return imageURLq}
-        if(str == "Q") {return imageURLQ}
-        if(str == "n") {return imageURLn}
-        if(str == "N") {return imageURLN}
-        if(str == "b") {return imageURLb}
-        if(str == "B") {return imageURLB}
-        return imageURLK
-        
-    }*/
+
  
     @objc func buttonAction(sender: UIButton!) {
         proceed = true
@@ -432,26 +545,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         }
     }
     
-    private func changeLabel() {
-        DispatchQueue.main.async {
-            CATransaction.begin()
-            self.bannerLayer.removeFromSuperlayer()
-            self.banner.text = "Detecting Chessboard..."
-            if(self.detectedChessBoard) {
-                self.banner.text = "Chessboard detected now segmenting..."
-                self.detectedChessBoard = false
-            } else if(self.segmentedChessBoard){
-                self.banner.text = "Chessboard segmented now analyzing..."
-                self.segmentedChessBoard = false
-            } else if(self.predictedChessBoard) {
-                self.banner.text = ""
-                self.predictedChessBoard = false
-            }
-            self.rootLayer.addSublayer(self.bannerLayer)
-            CATransaction.commit()
-        }
 
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -496,7 +590,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         banner.font = UIFont.boldSystemFont(ofSize: 18.0)
         banner.textAlignment = .center
         banner.textColor = .blue
-        banner.text = "Detecting Chessboard...."
+        banner.text = "Detecting Chessboard (point and align)...."
         self.view.addSubview(banner)
         
 
@@ -517,13 +611,14 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         
         bannerLayer = banner.layer
 
+
         setupAVCapture()
         engineManager.delegate = self
         engineManager.gameFen = gameFen
 
     }
     // Clean up capture setup
-    func teardownAVCapture() {
+    private func teardownAVCapture() {
         previewLayer.removeFromSuperlayer()
         previewLayer = nil
     }
@@ -534,10 +629,14 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     }
 
     
-    func startCaptureSession() {
+    private func startCaptureSession() {
         session.startRunning()
     }
-    func setupAVCapture() {
+    
+    private func setCaptureBounds() {
+        //ImageConverter.setBounds(0, (Int32)(self.view.layer.bounds.midY-rootLayer.bounds.width/2), (Int32)(rootLayer.bounds.width), (Int32)(rootLayer.bounds.width))
+    }
+    private func setupAVCapture() {
         var deviceInput: AVCaptureDeviceInput!
 
         // Select a video device, make an input
@@ -594,6 +693,32 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         rootLayer = self.view.layer
         previewLayer.frame = rootLayer.bounds
         rootLayer.addSublayer(previewLayer)
+        let edgeSpace: CGFloat! = rootLayer.bounds.width/10
+        let width:CGFloat! = (rootLayer.bounds.width-2*edgeSpace)
+        let rectW:CGFloat! = width/8
+        var rect: CGRect
+        var xloc, yloc: CGFloat!
+        for row in 0...7{
+            for col in 0...7{
+                xloc = 0+edgeSpace+CGFloat(col)*rectW
+                yloc = CGFloat(rootLayer.bounds.midY)-CGFloat(width/2)+CGFloat(row)*rectW
+                rect = CGRect(x: xloc, y: yloc, width:rectW, height:rectW)
+                rectLayers[row][col] = CAShapeLayer()
+                rectLayers[row][col].path = UIBezierPath(roundedRect: rect, cornerRadius: 5).cgPath
+                rectLayers[row][col].borderColor = UIColor.blue.cgColor
+                rectLayers[row][col].borderWidth = 5.0
+                rectLayers[row][col].backgroundColor = UIColor.green.cgColor
+                rectLayers[row][col].isHidden = false
+                if((row+col)%2 == 0) {
+                    rectLayers[row][col].opacity = 0.0
+                } else {
+                    rectLayers[row][col].opacity = 0.3
+                }
+                self.rectLayer.addSublayer(self.rectLayers[row][col])
+            }
+        }
+        self.rootLayer.addSublayer(self.rectLayer)
+        //setCaptureBounds()
  
         setupLayers()
         updateLayerGeometry()
@@ -601,42 +726,12 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         // start the capture
         startCaptureSession()
     }
+    
+
  
 
-    func get_fen(arr: [[String]]) -> String {
-        var fen: String = ""
-        var fen_row: String = ""
-        var prev_blanks: Int = 0
-        var sq: String
-        
-        for row in 0...7{
-            fen_row = ""
-            prev_blanks = 0
-            for col in 0...7 {
-                sq = arr[row][col]
-                if (sq == "empty" || sq == "" || sq == " ") {
-                    prev_blanks = prev_blanks+1
-                    if(col == 7) {
-                        fen_row += String(prev_blanks)
-                        prev_blanks = 0
-                    }
-                } else {
-                    if(prev_blanks != 0) {fen_row += String(prev_blanks)}
-                    prev_blanks = 0
-                    let start = sq.index(sq.startIndex, offsetBy: 1)
-                    if(sq.prefix(1) == "b") {
-                        fen_row += sq[start..<sq.endIndex]
-                    } else {
-                        fen_row += sq[start..<sq.endIndex].uppercased()
-                    }
-                }
-            }
-            if(0 < row) {fen_row = "/" + fen_row}
-            fen = fen + fen_row
-        }
-        return fen
-    }
-    func setupLayers() {
+
+    private func setupLayers() {
         detectionOverlay = CALayer() // container layer that has all the renderings of the observations
         detectionOverlay.name = "DetectionOverlay"
         detectionOverlay.bounds = CGRect(x: 0.0,
@@ -649,35 +744,31 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         chessBoardLayer.frame = rootLayer.bounds
         chessBoardLayer.contentsGravity = CALayerContentsGravity.center
     }
-    func displayBoardOverlay(image: UIImage){
-        CATransaction.begin()
-        let myImage = image.cgImage
-        chessBoardLayer.contents = myImage
-        rootLayer.addSublayer(chessBoardLayer)
-        CATransaction.commit()
+    private func displayBoardOverlay(image: UIImage){
+        DispatchQueue.main.async {
+            CATransaction.begin()
+            let myImage = image.cgImage
+            self.chessBoardLayer.contents = myImage
+            self.rootLayer.addSublayer(self.chessBoardLayer)
+            CATransaction.commit()
+        }
     }
-    func displayImageOverlay(image: UIImage){
-        CATransaction.begin()
-        detectionOverlay.sublayers = nil
-        let myImage = image.cgImage
-        let myLayer = CALayer()
-        myLayer.frame = detectionOverlay.bounds
-        myLayer.position = CGPoint(x: detectionOverlay.bounds.midX, y: detectionOverlay.bounds.midY)
-        myLayer.contents = myImage
-        detectionOverlay.addSublayer(myLayer)
-        CATransaction.commit()
+    private func displayImageOverlay(image: UIImage){
+        DispatchQueue.main.async {
+            CATransaction.begin()
+            self.detectionOverlay.sublayers = nil
+            let myImage = image.cgImage
+            let myLayer = CALayer()
+            myLayer.frame = self.detectionOverlay.bounds
+            myLayer.position = CGPoint(x: self.detectionOverlay.bounds.midX, y: self.detectionOverlay.bounds.midY)
+            myLayer.contents = myImage
+            self.detectionOverlay.addSublayer(myLayer)
+            CATransaction.commit()
+        }
     }
-    func translateMove(move: String) -> (Int,Int,Int,Int) {
-        if((move == "") || (move == "(none)")) {return(-1,-1,-1,-1)}
-        let tmpArry = Array(move)
-        let scol: Int = Int(tmpArry[0].unicodeScalars.map{$0.value}[0]-"a".unicodeScalars.map{$0.value}[0])
-        let srow: Int = Int(tmpArry[1].unicodeScalars.map{$0.value}[0]-"1".unicodeScalars.map{$0.value}[0])
-        let ecol: Int = Int(tmpArry[2].unicodeScalars.map{$0.value}[0]-"a".unicodeScalars.map{$0.value}[0])
-        let erow: Int = Int(tmpArry[3].unicodeScalars.map{$0.value}[0]-"1".unicodeScalars.map{$0.value}[0])
-        return (7-srow, scol, 7-erow, ecol)
-    }
+
  
-    func updateLayerGeometry() {
+    private func updateLayerGeometry() {
         let bounds = rootLayer.bounds
         var scale: CGFloat
         
@@ -727,4 +818,5 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         
     }
 }
+
 

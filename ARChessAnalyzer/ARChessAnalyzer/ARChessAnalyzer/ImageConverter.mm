@@ -16,16 +16,36 @@
 
 #define SQUARE_SIDE_LENGTH 227
 #define BOUNDS 3000
+int xl=0, yl=0, xh=0, yh=0;
+int xle=0, yle=0, xhe=0, yhe=0;
 std::vector<cv::Vec4i > hp, vp;
 std::vector<cv::Point2f > intersectionsP;
 int sqlen=SQUARE_SIDE_LENGTH;
 int board_len=sqlen*8;
-bool debug=true;
+bool debug=false;
 cv::Rect boundingRect;
 cv::Mat overLayMat;
 cv::Scalar overlayColor( 255, 0, 255 );
 cv::Scalar boundingColor (0, 0, 255);
 cv::Scalar gridColor(255, 0, 0);
+
+void setBounds(cv::Mat mat){
+    cv::Size s=mat.size();
+    int edgeSpace = s.width/10;
+    edgeSpace = 3*edgeSpace/4;//buffer
+    int width = s.width-2*edgeSpace;
+    xl = edgeSpace;
+    yl = s.height/2-width/2;
+    xh = xl+width;
+    yh = yl+width;
+    edgeSpace = s.width/10;
+    width = s.width-2*edgeSpace;
+    xle = edgeSpace;
+    yle = s.height/2-width/2;
+    xhe = xl+width;
+    yhe = yl+width;
+}
+
 
 double median( cv::Mat channel ) {
     double m = (channel.rows*channel.cols) / 2;
@@ -83,6 +103,9 @@ int numLines(std::vector<cv::Vec4i > lines) {
         if(x0 > BOUNDS || y0 > BOUNDS || x1 > BOUNDS || y1 > BOUNDS || x0 < -BOUNDS || y0 < -BOUNDS || y1 < -BOUNDS || x1 < -BOUNDS) {
                          continue;
         }
+        if(x0 > xh || y0 > yh || x1 > xh || y1 > yh || x0 < xl || y0 < yl || y1 < yl || x1 < xl) {
+            continue;
+        }
         num++;
     }
     return(num);
@@ -94,6 +117,7 @@ void hor_vert_linesP(std::vector<cv::Vec4i > lines) {
     cv::Vec4i line;
     float slope;
     float factor=4.0;
+    factor=2.0;
     for(int i=0;i<lines.size();i++) {
         line = lines[i];
         x0=line[0];
@@ -101,6 +125,9 @@ void hor_vert_linesP(std::vector<cv::Vec4i > lines) {
         x1=line[2];
         y1=line[3];
         if(x0 > BOUNDS || y0 > BOUNDS || x1 > BOUNDS || y1 > BOUNDS || x0 < -BOUNDS || y0 < -BOUNDS || y1 < -BOUNDS || x1 < -BOUNDS) {
+            continue;
+        }
+        if(x0 > xh || y0 > yh || x1 > xh || y1 > yh || x0 < xl || y0 < yl || y1 < yl || x1 < xl) {
             continue;
         }
         slope = (float) (y1-y0)/(float) (x1-x0);
@@ -152,6 +179,9 @@ void intersectionP(std::vector<cv::Vec4i > h, std::vector<cv::Vec4i > v) {
                 if(r.x < -BOUNDS || r.x > BOUNDS || r.y > BOUNDS || r.y < -BOUNDS ){
                     continue;
                 }
+                if(r.x < xl || r.x > xh || r.y > yh || r.y < yl ){
+                    continue;
+                }
                 if(((fmin(o1.x,p1.x) <= r.x <= fmax(o1.x,p1.x)) &&
                    (fmin(o1.y,p1.y) <= r.y <= fmax(o1.y,p1.y))) &&
                    ((fmin(o2.x,p2.x) <= r.x <= fmax(o2.x,p2.x)) &&
@@ -188,6 +218,7 @@ void showPoints(std::vector<cv::Point2f> intersections, cv::Mat mat) {
 }
 bool outOfBounds(int x, int y) {
     if(x > BOUNDS || y > BOUNDS || x < -BOUNDS || y < -BOUNDS) {return(true);}
+    if(x > xh || y > yh || x < xl || y < yl) {return(true);}
     return(false);
 }
 
@@ -245,6 +276,45 @@ void writeFile(UIImage * image, NSString * str) {
     [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
 }
 
++(bool) isBoard:(UIImage *) image {
+    cv::Mat mat, gray, grayC;
+    UIImageToMat(image, mat);
+    cv::cvtColor(mat, gray, cv::COLOR_BGR2GRAY);
+    setBounds(mat);
+    cv::Mat croppedMat = gray(cv::Rect(xle, yle, xhe, yhe));
+    cv::Mat checkerBoard[8][8];
+    bool  bitMap[8][8];
+    double med[8][8];
+    double w=(xhe-xle)/8;
+    double m = median(croppedMat);
+    //double l = 0.33*m;
+    //double h = 1.66*m;
+    int crossings=0;
+    for(int i=0;i<8;i++){
+        for(int j=0;j<8;j++){
+            checkerBoard[i][j] = croppedMat(cv::Rect(xle+w*j, yle+w*i, w, w));
+            med[i][j] = median(checkerBoard[i][j]);
+            if(med[i][j] < m) bitMap[i][j] = false;
+            else bitMap[i][j] = true;
+        }
+    }
+    for(int i=0;i<7;i++) {
+        for(int j=0;j<7;j++){
+            if(bitMap[i][j]) {
+                if(!bitMap[i+1][j]) crossings++;
+                if(!bitMap[i][j+1]) crossings++;
+            }
+            if(!bitMap[i][j]) {
+                if(bitMap[i+1][j]) crossings++;
+                if(bitMap[i][j+1]) crossings++;
+            }
+        }
+    }
+    if(crossings >= 48) return(true);
+    return(false);
+    
+}
+
 
 cv::Rect * DetectBoard(UIImage * image) {
     cv::Mat mat, gray, edges, debuggray;
@@ -258,11 +328,13 @@ cv::Rect * DetectBoard(UIImage * image) {
     int clusterCount = 32;
 
     UIImageToMat(image, mat);
+    setBounds(mat);
     if(debug) {
         writeFile(image, [NSString stringWithFormat:@"%s", "Orig.png"]);
     }
     cv::cvtColor(mat, gray, cv::COLOR_BGR2GRAY);
     if(debug) {
+        cv::rectangle(gray, cv::Point(xl,yl), cv::Point(xh,yh), overlayColor, 3,cv::FILLED, 0 );
         tmp = MatToUIImage(gray);
         writeFile(tmp, [NSString stringWithFormat:@"%s", "Gray.png"]);
     }
@@ -299,7 +371,7 @@ cv::Rect * DetectBoard(UIImage * image) {
 
     std::vector<cv::Point2f> centers;
     kmeans(intersectionsP, clusterCount, labels,
-                                cv::TermCriteria(cv::TermCriteria::EPS+cv::TermCriteria::COUNT, 10, 1.0),
+        cv::TermCriteria(cv::TermCriteria::EPS+cv::TermCriteria::COUNT, 10, 1.0),
                                 3, cv::KMEANS_PP_CENTERS, centers);
 
     for(int i=0;i<centers.size();i++){

@@ -467,6 +467,7 @@ cv::Rect * DetectBoard(UIImage * image) {
     
     UIImageToMat(image, mat);
     int fp = 3;
+    //fp = 0;
     
     corners.push_back(cv::Point2f(boundingRect.x-fp, boundingRect.y-fp));
     corners.push_back(cv::Point2f(boundingRect.x-fp, boundingRect.y+boundingRect.height+fp));

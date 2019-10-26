@@ -11,6 +11,7 @@ import AVFoundation
 import CoreML
 import Vision
 import ImageIO
+import AudioToolbox
 import ChessEngine
 
 
@@ -145,11 +146,16 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
             self.bannerLayer.removeFromSuperlayer()
             self.banner.text = "Detecting Chessboard (point and align)..."
             self.rootLayer.addSublayer(self.rectLayer)
+            if(!self.detectedChessBoard && !self.segmentedChessBoard && !self.predictedChessBoard) {
+                self.toggleTorch(on: true)
+            }
             if(self.detectedChessBoard) {
                 self.banner.text = "Chessboard detected now segmenting..."
                 self.detectedChessBoard = false
                 self.rectLayer.removeFromSuperlayer()
             } else if(self.segmentedChessBoard){
+                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                self.toggleTorch(on: false)
                 self.banner.text = "Chessboard segmented now analyzing..."
                 self.segmentedChessBoard = false
                 self.rectLayer.removeFromSuperlayer()
@@ -238,6 +244,25 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         if(str == "B") {return imageB}
         return imageK
         
+    }
+    
+    private func toggleTorch(on: Bool) {
+        guard let device = AVCaptureDevice.default(for: .video) else { return }
+        if device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                if on == true {
+                    device.torchMode = .on
+                } else {
+                    device.torchMode = .off
+                }
+                device.unlockForConfiguration()
+            } catch {
+                print("Torch could not be used")
+            }
+        } else {
+            print("Torch is not available")
+        }
     }
     
     private func isValidBoard(fen: String) -> Bool {
@@ -444,6 +469,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         //detectedChessBoard = false
         //segmentedChessBoard = false
         //predictedChessBoard = false
+ 
         proceed = false
         var squareImage: UIImage!
         self.fen = Array(repeating: Array(repeating: "empty", count: 8), count: 8)
